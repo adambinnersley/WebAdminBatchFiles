@@ -1,0 +1,1 @@
+Powershell.exe -executionpolicy remotesigned -File C:/SmarterMail/Scripts/PFXCertCreate.ps1
