@@ -8,7 +8,9 @@ set server_ip = "127.0.0.1";
 
 for /f "tokens=*" %%i in (%file_location%) do (
     "%plesk_cli%\site.exe" -c %%i -webspace-name %subscription% -hosting true -www-root %%i -php true -seo-redirect www -asp.net false -err_docs false -ssl true -write_modify true
-    "%plesk_cli%\extension.exe" --exec letsencrypt cli.php -d %%i -d www.%%i -m %ssl_notify%
+    plesk ext sslit --certificate -issue -domain %%i -registrationEmail %ssl_notify% -secure-domain -wildcard
+    plesk ext sslit --certificate -issue -domain %%i -registrationEmail %ssl_notify% -continue
+    plesk ext sslit --hsts -enable -domain %%i -max-age 6months
     plesk bin mail.exe --update-service "%%i" -status enabled
     plesk bin mail.exe -c info@%%i -passwd %defaultmailpassword% -mailbox true -aliases add:student
     "%plesk_cli%\domain_pref.exe" --update %%i -sign_outgoing_mail true
